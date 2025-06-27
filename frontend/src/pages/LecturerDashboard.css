@@ -1,0 +1,536 @@
+/* LecturerDashboard.css */
+
+.lecturer-container {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  font-family: 'Poppins', sans-serif;
+}
+
+.lecturer-container:before {
+  content: "";
+  position: absolute;
+  width: 2000px;
+  height: 2000px;
+  top: -10%;
+  right: 48%;
+  background-image: linear-gradient(-45deg, #4481eb 0%, #04befe 100%);
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.lecturer-panels {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  z-index: 2;
+}
+
+.lecturer-left-panel,
+.lecturer-right-panel {
+  display: flex;
+  align-items: center;
+  padding: 2rem;
+}
+
+.lecturer-left-panel {
+  justify-content: flex-start;
+}
+
+.lecturer-right-panel {
+  justify-content: flex-end;
+}
+
+.nav-box {
+  background: #fff;
+  border-radius: 20px;
+  padding: 2rem;
+  width: 260px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+}
+
+.page-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 2rem 2.5rem;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  color: #223564;
+}
+
+.page-card h2 {
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+}
+
+.page-card p {
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.page-card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.page-card li {
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.page-card li strong {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+/* ─── NavBox Link Styles ─────────────────────────────────────────────── */
+
+.nav-box nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-box .nav-link {
+  display: block;              /* full‐width click area */
+  margin: 0.5rem 0;            /* space between links */
+  padding: 0.75rem 1rem;       /* breathing room */
+  color: #223564;              /* deep navy text */
+  text-decoration: none;       /* remove underline */
+  border-radius: 8px;          /* subtle rounding */
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+}
+
+.nav-box .nav-link:hover,
+.nav-box .nav-link.active {
+  background: #e0f4ff;         /* very light blue hover/bg */
+  color: #044fa0;              /* darker blue text */
+}
+/* make textarea fill the pill, fixed height + scroll */
+.page-card .input-field textarea {
+  border: none;
+  outline: none;
+  background: none;
+  width: 100%;
+  resize: vertical;
+  height: 100px;           /* fixed height */
+  padding: 0;              /* matches your .input-field padding */
+  font-family: inherit;
+  font-size: 1rem;
+  overflow: auto;
+}
+
+/* ensure datetime-local input also spans full width */
+.page-card .input-field input[type="datetime-local"] {
+  background: none;
+  border: none;
+  outline: none;
+  width: 100%;
+  line-height: 1.2;
+  font-size: 1rem;
+}
+/* ── Subject block spacing ───────────────────────────────────── */
+
+.subject-block {
+  margin-bottom: 1.5rem;
+}
+
+.subject-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.subject-toggle {
+  font-weight: 600;
+  color: #223564;
+  cursor: pointer;
+}
+
+/* ── Reuse your .btn but scale it down ───────────────────────── */
+
+.add-btn {
+  font-size: 0.85rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 30px;
+}
+
+/* ── Assignment list items ───────────────────────────────────── */
+
+.assignment-list {
+  padding-left: 1.5rem;
+  list-style: disc;
+}
+
+.assignment-list li {
+  margin: 0.4rem 0;
+}
+
+.subject-item {
+  font-weight: 600;
+  color: #223564;
+  text-decoration: none;
+}
+
+.subject-item:hover {
+  text-decoration: underline;
+}
+
+.dashboard-container {
+  padding: 2rem;
+}
+.subject-list {
+  list-style: none;
+  padding: 0;
+}
+.subject-item {
+  margin: 0.5rem 0;
+}
+.subject-item a {
+  text-decoration: none;
+  color: #004085;
+  font-size: 1.1rem;
+}
+.subject-item a:hover {
+  text-decoration: underline;
+}
+
+/* in your LecturerDashboard.css (or style.css) */
+.input-wrapper {
+  margin-bottom: 1rem;
+}
+
+.input-wrapper .file-label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.page-card {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.feedback-container {
+  max-height: 60vh;
+  overflow-y: auto;
+  padding-right: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #eee;
+  border-radius: 4px;
+}
+
+.router-block {
+  margin-bottom: 1rem;
+}
+
+.download-btn {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background: #2e5aac;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.download-btn:hover {
+  background: #244786;
+}
+
+.feedback-container {
+  max-height: 60vh;
+  overflow-y: auto;
+  padding-right: 8px;
+  margin-bottom: 1rem;
+}
+.router-block {
+  margin-bottom: 1.5rem;
+}
+.download-btn {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #0056b3;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+}
+.page-card {
+  max-height: 85vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.feedback-container {
+  max-height: 60vh;
+  overflow-y: auto;
+  padding-right: 8px;
+  margin-bottom: 1rem;
+}
+.router-block {
+  margin-bottom: 1.5rem;
+}
+.download-btn {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #0056b3;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+}
+.page-card {
+  max-height: 85vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── wrap donut + bar side-by-side ── */
+.top-charts {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+/* each chart gets its own box */
+.chart-wrapper {
+  position: relative;
+  background: #fff;
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+  padding: 0.5rem;
+  flex: 1 1 300px; /* grow/shrink, base 300px */
+  max-width: 45%;
+  box-sizing: border-box;
+}
+
+/* donut needs fixed height */
+.donut-wrapper {
+  height: 180px;
+}
+
+/* bar needs a bit more room */
+.bar-wrapper {
+  height: 260px;
+}
+
+/* center percent inside donut */
+.donut-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+/* feedback container stays scrollable */
+.feedback-container {
+  max-height: 45vh;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #eee;
+  border-radius: 4px;
+}
+
+/* make both chart panels identical in size */
+.chart-row .chart-item {
+  flex: 1;               /* each takes equal share of the row */
+  max-width: 45%;        /* roughly half of the available width */
+  height: 300px;         /* fixed height to match histogram */
+  box-sizing: border-box;
+  padding: 1rem;
+  border: 1px dashed #ddd;
+  border-radius: 8px;
+  background: #fafafa;
+  position: relative;
+}
+
+/* force the <canvas> to fill its parent chart‐item */
+.chart-item canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* center the doughnut percentage label */
+.chart-center-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.page-card {
+  max-height: 90vh;        /* or whatever fits your design */
+  display: flex;
+  flex-direction: column;
+}
+
+.page-card > .top-charts,
+.page-card > form {        /* or whatever your direct children are */
+  flex: 0 0 auto;         /* they size themselves */
+}
+
+.page-card > .feedback-container,
+.page-card > .perf-assignment-list {
+  flex: 1 1 auto;         /* fill the remaining space */
+  overflow-y: auto;       /* and scroll if needed */
+}
+
+/* make only the feedback section scroll, not the whole page */
+.feedback-section {
+  max-height: 60vh;       /* cap at 60% of viewport height */
+  overflow-y: auto;       /* vertical scrollbar when needed */
+  padding-right: 1rem;    /* space for the scrollbar */
+  border: 1px solid #eee; /* match your card style */
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+/* optional: a bit more breathing room inside each router block */
+.feedback-section .router-block {
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed #ddd;
+}
+
+.feedback-section .router-block:last-child {
+  border-bottom: none;
+}
+
+/* optional: style the scrollbar (WebKit) */
+.feedback-section::-webkit-scrollbar {
+  width: 8px;
+}
+.feedback-section::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+.feedback-section::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+.feedback-section::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+
+.grade-card {
+  max-height: 85vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+}
+
+.selectors {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.selectors label {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.chart-wrapper {
+  width: 100%;
+  height: 180px;
+  margin-bottom: 1rem;
+}
+
+.feedback-container {
+  max-height: 100vh;
+
+  padding: 0.5rem;
+  border: 1px solid #eee;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+}
+
+.total-score {
+  margin: 0.5rem 0 1rem;
+}
+
+.download-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.dl-btn {
+  padding: 0.2rem 0.5rem;
+  background: #e9ecef;
+  color: #223564;
+  border-radius: 1px;
+  text-decoration: none;
+  font-weight: 200;
+  transition: background 0.1s;
+}
+.dl-btn:hover {
+  background: #d4dce6;
+}
+
+.dl-btn.primary {
+  background: #2e5aac;
+  color: white;
+}
+.dl-btn.primary:hover {
+  background: #244786;
+}
+
+/* Toggle button */
+.adjust-toggle-btn {
+  margin: 1rem 0;
+  background: #5995fd;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.adjust-toggle-btn:hover {
+  background: #467cd4;
+}
+
+/* Collapsible form */
+.adjust-score {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #f1f5ff;
+  border: 1px solid #d0daea;
+  border-radius: 6px;
+}
+.adjust-score h3 {
+  margin-top: 0;
+}
+.adjust-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.adjust-row input {
+  padding: 0.5rem;
+  flex: 1 1 120px;
+}
+.adjust-row button {
+  padding: 0.5rem 1rem;
+}
+.adjust-score .error {
+  color: #b00;
+  margin-top: 0.5rem;
+}

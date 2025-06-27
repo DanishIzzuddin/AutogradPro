@@ -1,0 +1,33 @@
+/* StudentPerformance.css or wherever you keep this */
+.perf-assignment-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;      /* space above the list */
+}
+
+.perf-assignment-list li {
+  display: flex;                        /* line up contents in a row */
+  justify-content: space-between;       /* push title to left, badge to right */
+  align-items: center;                  /* vertically center them */
+  padding: 0.75rem 1rem;                /* give each row some breathing room */
+  border-bottom: 1px solid #eee;        /* a soft separator */
+  font-size: 1rem;                      /* ensure readable at 100% zoom */
+}
+
+.perf-assignment-list li:last-child {
+  border-bottom: none;                  /* no separator on the last item */
+}
+
+.asgn-title {
+  font-weight: 600;
+  color: #223564;
+}
+
+.asgn-badge {
+  background: #e0f4ff;
+  color: #044fa0;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  white-space: nowrap;                  /* keep badge text on one line */
+}

@@ -1,0 +1,147 @@
+/* ensure it uses your dashboard background */
+.perf-card {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.chart-wrapper {
+  margin: 1.5rem 0;
+  border: 1px dashed #ccc;
+  padding: 0.5rem;
+  background: #fafafa;
+}
+
+.filters {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.filter-btn {
+  flex: 1;
+  background: #e2e6eb;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.filter-btn.active {
+  background: #5995fd;
+  color: #fff;
+}
+
+.filter-btn:hover {
+  background: #d0d4da;
+}
+
+.student-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+  max-height: 200px;
+  overflow-y: auto;
+  border-top: 1px solid #eee;
+}
+
+.student-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.stu-name {
+  font-weight: 500;
+}
+
+.stu-score {
+  font-weight: 600;
+}
+
+.perf-footer {
+  margin-top: 1.5rem;
+}
+
+.common-fb {
+  margin-left: 1rem;
+  color: #555;
+}
+
+/* StudentPerformance.css */
+
+.perf-card {
+  max-width: 800px;
+  margin: auto;
+  padding: 2rem;
+}
+
+.perf-controls {
+  margin: 1rem 0 2rem;
+  display: flex;
+  align-items: center;
+}
+.perf-controls label {
+  margin-right: 0.5rem;
+  font-weight: 500;
+}
+.perf-controls select {
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.chart-wrapper {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  margin-bottom: 2rem;
+}
+
+.perf-assignment-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.perf-assignment-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid #eee;
+}
+.perf-assignment-list li:last-child {
+  border-bottom: none;
+}
+.asgn-title {
+  font-weight: 500;
+  color: #223564;
+}
+.asgn-badge {
+  background: #e4f0ff;
+  color: #4481eb;
+  padding: 0.3rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+}
+
+.page-card {
+  max-height: 90vh;        /* or whatever fits your design */
+  display: flex;
+  flex-direction: column;
+}
+
+.page-card > .top-charts,
+.page-card > form {        /* or whatever your direct children are */
+  flex: 0 0 auto;         /* they size themselves */
+}
+
+.page-card > .feedback-container,
+.page-card > .perf-assignment-list {
+  flex: 1 1 auto;         /* fill the remaining space */
+  overflow-y: auto;       /* and scroll if needed */
+}
+
