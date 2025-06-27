@@ -31,6 +31,18 @@ app.use('/api/auth', authRouter);
 // Lecturer + student: /api/…
 app.use('/api', apiRouter);
 
+// ─── SERVE React BUILD IN PRODUCTION ────────────────────────────
+if (process.env.NODE_ENV === 'production') {
+  // Serve static files from the React app
+  app.use(express.static(path.join(__dirname, '../frontend/build')));
+  // All other GET requests not handled before will return React's index.html
+  app.get('*', (req, res) => {
+    res.sendFile(
+      path.join(__dirname, '../frontend/build', 'index.html')
+    );
+  });
+}
+
 // ─── HEALTH‐CHECK ───────────────────────────────────────────────
 app.get('/', (req, res) => res.send('Backend is working'));
 
