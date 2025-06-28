@@ -5,10 +5,14 @@
   "engines": {
     "node": "16.x"
   },
-  "scripts": {
-    "start": "node backend/server.js",
-    "heroku-postbuild": "npm install --prefix frontend && npm run build --prefix frontend"
-  },
+ "scripts": {
+   "start": "node backend/server.js",
+   "heroku-postbuild": "npm install --prefix frontend && npm run build --prefix frontend"
+ },
+ "scripts": {
+   "start": "node backend/server.js",
+   "postinstall": "npm install --prefix frontend && npm run build --prefix frontend"
+ },
   "keywords": [],
   "author": "",
   "license": "ISC",
