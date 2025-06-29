@@ -1,130 +1,102 @@
-AutoGradPro 🎓💻
-Automated Grading System for Computer Network Assignments (Static/OSPF)
+# 🧠 AutoGradPro  
+### Automated Grading System for Computer Network Assignments (Static/OSPF)
 
-AutoGradPro is a full-stack, role-based web application that enables secure, automated, and fair grading of Packet Tracer (.pka) and configuration (.zip) assignments submitted by students. Designed for use in academic settings (e.g., computer networking courses), it combines a Python-based grading engine with a modern web frontend and backend.
+AutoGradPro is a full-stack, web-based platform designed for automated and fair grading of computer network configuration assignments (such as `.zip` files from Packet Tracer/GNS3). The system includes:
 
-📌 Features
-🔐 Secure JWT-based login (Student & Lecturer roles)
+- 🧪 A Python-based grading engine
+- 🌐 A Node.js + Express backend
+- 🎨 A modern React frontend
+- 🗄️ A MySQL database for persistence
 
-📤 Auto ZIP validation and upload handling
+It is designed to help lecturers grade student submissions fairly and efficiently while giving students real-time feedback and downloadable reports.
 
-🤖 Python-powered grading engine (Static & OSPF detection)
+---
 
-🧾 Auto-generated per-router feedback (PDF Report)
+## 🔧 Technologies Used
 
-📊 Lecturer dashboard with submission and performance analytics
+| Component        | Technology          |
+|------------------|---------------------|
+| Frontend         | React (JavaScript)  |
+| Backend API      | Express.js (Node.js)|
+| Grading Engine   | Python (3.9+)       |
+| Database         | MySQL               |
 
-🧑‍🎓 Student dashboard to view feedback and scores
+---
 
-📁 Integrated with MySQL for persistence
+## 👶 Beginner-Friendly Setup (Step-by-Step)
 
-📁 Project Structure
-php
+This guide assumes **you know nothing** about development. Just follow every step carefully and it will work.
+
+---
+
+## ✅ Prerequisites
+
+Make sure you install the following on your computer:
+
+- [Node.js](https://nodejs.org/) (v18+)
+- [Python](https://www.python.org/downloads/) (v3.9+)
+- [MySQL Server](https://dev.mysql.com/downloads/installer/)
+- [Git](https://git-scm.com/downloads)
+
+---
+
+## 🚀 How to Install & Run the Project
+
+### 1. 📥 Clone the Project
+
+```bash
+git clone https://github.com/DanishIzzuddin/AutoGradPro.git
+cd AutoGradPro
+2. 🗃️ Setup the MySQL Database
+Open MySQL Workbench or Terminal
+
+Create a new database:
+
+sql
 Copy
 Edit
-auto-grad-pro/
-├── backend/                  # Express + JWT + MySQL
-│   ├── server.js            # Entry point (run via node server.js)
-│   ├── db.js                # MySQL connection config
-│   ├── routes.js            # Student & lecturer routes
-│   ├── auth.js              # JWT token issuance
-│   ├── uploads/             # ZIPs, PKAs, and PDF reports
-│   └── services/
-│       └── graderService.js # Calls the Python script for grading
+CREATE DATABASE autograder;
+USE autograder;
+Import the provided schema (ask the author if you don’t have it)
 
-├── frontend/                 # React.js frontend
-│   ├── public/
-│   ├── src/
-│   │   ├── api/             # Axios instance with token header
-│   │   ├── components/      # NavBar, Buttons, etc.
-│   │   ├── pages/           # Student & Lecturer Views
-│   │   └── App.jsx          # Main router
-│   └── package.json
-
-├── python-grader/           # Python grading engine
-│   ├── extractor/           # Unzips & loads config text
-│   ├── normalizer/          # Cleans & formats configs
-│   ├── grader/              # Scoring logic
-│   └── grader.py            # Entrypoint called by backend
-⚙️ Prerequisites
-Node.js v18+
-
-Python 3.9+
-
-MySQL Server
-
-Git & npm
-
-🔧 Setup Instructions
-1. Clone the Repository
-bash
-Copy
-Edit
-git clone https://github.com/your-username/auto-grad-pro.git
-cd auto-grad-pro
-2. Setup MySQL Database
-Create a MySQL database (e.g. autograder)
-
-Run your schema script to create the following tables:
-
-users
-
-subjects
-
-teacher_subjects, student_subjects
-
-assignments
-
-submissions
-
-router_results
-
-Insert seed/test data (lecturers, students, assignments)
-
-3. Backend Setup
+3. ⚙️ Setup Backend (Express.js)
 bash
 Copy
 Edit
 cd backend
 npm install
-Create a .env file:
+Create a .env file inside the backend folder:
 
 ini
 Copy
 Edit
 PORT=5000
-JWT_SECRET=your_jwt_secret_here
 DB_HOST=localhost
 DB_USER=root
 DB_PASSWORD=your_mysql_password
 DB_NAME=autograder
+JWT_SECRET=your_super_secret_key
 Start the backend server:
 
 bash
 Copy
 Edit
 node server.js
-This will launch the backend on http://localhost:5000.
-
-4. Python Grader Setup
+4. 🐍 Setup Python Grading Engine
 bash
 Copy
 Edit
 cd python-grader
 pip install -r requirements.txt
-Make sure the following files/folders exist:
+Make sure you're using Python 3.9+ (python --version)
 
-extractor/, normalizer/, grader/ (each with appropriate .py files)
-
-grader.py should be the callable script with CLI args for zip paths and prefix.
-
-5. Frontend Setup
+5. 🌐 Setup Frontend (React)
 bash
 Copy
 Edit
 cd frontend
 npm install
-Create .env in /frontend:
+Create a .env file in frontend:
 
 ini
 Copy
@@ -136,44 +108,97 @@ bash
 Copy
 Edit
 npm start
-This will launch the React app on http://localhost:3000.
+Open your browser and go to: http://localhost:3000
 
-🧪 How to Use
-👨‍🏫 Lecturer Flow
-Login with lecturer credentials
+👥 Sample Users
+👨‍🏫 Lecturer
+graphql
+Copy
+Edit
+Email: lecturer1@mmu.edu.my
+Password: Lecturer@123
+👨‍🎓 Student
+graphql
+Copy
+Edit
+Email: student1@mmu.edu.my
+Password: Student@123
+🧪 System Features
+🔐 Secure JWT login (Student & Lecturer roles)
 
-Create assignment (upload PKA, master ZIPs, set due date)
+📤 Auto ZIP validation and upload
 
-View submissions per student
+🐍 Python-based grading (Static or OSPF)
 
-View class performance and feedback PDF
+📄 PDF report generation (per-router feedback)
 
-👩‍🎓 Student Flow
-Login with student credentials
+📊 Lecturer dashboard with analytics and submission stats
 
-Browse subjects and assignments
+📥 Student dashboard with downloadable PDF feedback
 
-Upload ZIPs + PKA (if OSPF)
+🗄️ MySQL for storing users, submissions, assignments
 
-Instantly receive router-level feedback and downloadable PDF
+🗂️ Project Folder Structure
+lua
+Copy
+Edit
+AutoGradPro/
+├── backend/
+│   ├── server.js
+│   ├── config.js
+│   ├── routes/
+│   ├── auth/
+│   └── db/
+├── frontend/
+│   ├── src/
+│   │   ├── pages/
+│   │   ├── components/
+│   │   └── App.jsx
+│   ├── .env
+│   └── package.json
+├── python-grader/
+│   ├── grader.py
+│   ├── extractor/
+│   ├── normalizer/
+│   ├── topology.py
+│   └── requirements.txt
+🖼️ Recommended Screenshots to Include
+✅ Student Submit Form
 
+📊 Result and Feedback Page (with router scores)
 
-📚 Technologies Used
-Layer	Stack
-Frontend	React, Chart.js, Axios
-Backend	Express.js, MySQL, Multer
-Auth	JWT, bcrypt
-Grading	Python 3.9, zipfile, ipaddress, regex
-Reports	PDFKit (for styled grading reports)
+📥 PDF Feedback Example
 
-🧩 Known Limitations
-No real-time notifications (email or UI)
+📈 Lecturer Dashboard (analytics and submissions)
 
-No file preview before submission
+🔐 Login Page (Student & Lecturer)
 
-No audit trail (logging module in future)
+💬 Common Commands
+Command	Purpose
+npm install	Install Node dependencies
+node server.js	Start Express backend
+pip install -r requirements.txt	Install Python dependencies
+npm start	Start React frontend
 
-File uploads only accepted via ZIPs
+📌 Known Limitations
+No real-time push notifications (manual refresh required)
 
-📜 License
-MIT License © 2025 AutoGradPro Team
+No visual analysis of .pka simulation
+
+No built-in logging system (currently console-based)
+
+No file storage on cloud (local only)
+
+📬 Support or Contribution
+Open an issue or submit a pull request if you want to help improve AutoGradPro!
+
+🙏 Thank You for Using AutoGradPro!
+This system was developed as a Final Year Project (FYP) at MMU (Faculty of Computing and Informatics).
+
+yaml
+Copy
+Edit
+
+---
+
+You can copy-paste this entire Markdown into your `README.md` file directly. Let me know if you want 
