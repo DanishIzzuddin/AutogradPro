@@ -16,7 +16,11 @@ export default function LecturerDashboard({ onSignOut }) {
 
         <div className="lecturer-right-panel">
           <div className="page-card">
-            <h2>Dashboard Overview</h2>
+            <h1>Welcome to AutoGradPro</h1>
+            <p>
+              Your one-stop platform for automating the grading of
+              Cisco Packet Tracer and GNS3 assignments.
+            </p>
             <p><strong>How to Use</strong></p>
             <ul>
               <li>

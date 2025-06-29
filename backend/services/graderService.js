@@ -1,7 +1,7 @@
 // backend/services/graderService.js
 
 const { spawn } = require("child_process");
-const path       = require("path");
+const path = require("path");
 
 /**
  * Calls the Python grader CLI and returns the parsed JSON summary.
@@ -36,15 +36,24 @@ function gradeZip(
     );
 
     let out = "", err = "";
+
     py.stdout.on("data", chunk => (out += chunk));
     py.stderr.on("data", chunk => (err += chunk));
 
     py.on("close", code => {
-      if (code !== 0) return reject(new Error(err || `Exit code ${code}`));
+      if (code !== 0) {
+        // Return a known shape for frontend
+        return resolve({
+          success: false,
+          error: err.trim() || `Python exited with code ${code}`,
+          final_score: 0,
+          per_router: {}
+        });
+      }
       try {
         resolve(JSON.parse(out));
       } catch (e) {
-        reject(e);
+        reject(e); // JSON parsing failed
       }
     });
   });

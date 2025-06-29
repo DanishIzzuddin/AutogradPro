@@ -18,10 +18,19 @@ export default function NewAssignment() {
   const [assignmentType, setAssignmentType] = useState('static');
   const [error, setError]                   = useState('');
 
+  // compute min attribute to disable past dates
+  const minDue = new Date().toISOString().slice(0,16);
+
   const handleSubmit = async e => {
     e.preventDefault();
+    setError('');
+
     if (!title || !dueDate) {
       return setError('Title and due date are required');
+    }
+    // ensure dueDate is in the future
+    if (new Date(dueDate) <= new Date()) {
+      return setError('Due date must be in the future');
     }
     if (!pkaFile) {
       return setError('Please upload a .pka file');
@@ -62,10 +71,25 @@ export default function NewAssignment() {
         <div className="lecturer-right-panel">
           <div className="page-card" style={{ maxWidth: '600px', margin: 'auto' }}>
             <BackButton />
-            <h2>New Assignment</h2>
-            {error && <p className="error">{error}</p>}
 
             <form onSubmit={handleSubmit}>
+              {error && <p className="error">{error}</p>}
+
+              {/* Header + Submit button side by side */}
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginBottom: '1rem'
+                }}
+              >
+                <h2>New Assignment</h2>
+                <button type="submit" className="btn solid">
+                  Create
+                </button>
+              </div>
+
               {/* Title */}
               <div className="input-field">
                 <i className="fas fa-file-alt" />
@@ -96,6 +120,7 @@ export default function NewAssignment() {
                   type="datetime-local"
                   value={dueDate}
                   onChange={e => setDueDate(e.target.value)}
+                  min={minDue}
                   required
                 />
               </div>
@@ -164,10 +189,6 @@ export default function NewAssignment() {
                   </div>
                 </div>
               )}
-
-              <button type="submit" className="btn solid">
-                Create
-              </button>
             </form>
           </div>
         </div>

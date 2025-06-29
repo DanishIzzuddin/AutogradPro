@@ -31,6 +31,8 @@ const upload = multer({ dest: UPLOADS_DIR });
 
 // ─── LECTURER ROUTES ──────────────────────────────────────────────
 
+// ─── LECTURER ROUTES ──────────────────────────────────────────────
+
 // List subjects
 router.get('/lecturer/subjects', authenticateJWT, async (req, res) => {
   if (req.user.role !== 'lecturer') return res.status(403).end();
@@ -55,11 +57,17 @@ router.get('/lecturer/subjects/:sid/assignments', authenticateJWT, async (req, r
   try {
     const subjectId = +req.params.sid;
     const [asgn] = await db.query(
-      `SELECT id, title, description, due_date,
-              assignment_type, pka_file,
-              master_zip, master_neigh_zip
-         FROM assignments
-        WHERE subject_id = ?`,
+      `SELECT 
+         id, 
+         title, 
+         description, 
+         due_date, 
+         assignment_type, 
+         pka_file, 
+         master_zip, 
+         master_neigh_zip
+       FROM assignments
+      WHERE subject_id = ?`,
       [subjectId]
     );
     res.json(asgn);
@@ -81,6 +89,14 @@ router.post('/lecturer/subjects/:sid/assignments', authenticateJWT, cpUpload, as
     const subjectId = +req.params.sid;
     const { title, description, due_date, assignment_type } = req.body;
 
+    // Validate due_date
+    if (!due_date || isNaN(Date.parse(due_date))) {
+      return res.status(400).json({ message: 'A valid due_date (ISO string) is required' });
+    }
+    if (new Date(due_date) <= new Date()) {
+      return res.status(400).json({ message: 'due_date must be in the future' });
+    }
+
     const pkaFile = req.files['pka_file']?.[0]?.filename || '';
     const masterZip = req.files['master_zip']?.[0]?.filename || '';
     const masterNeigh = req.files['master_neigh_zip']?.[0]?.filename || '';
@@ -95,7 +111,7 @@ router.post('/lecturer/subjects/:sid/assignments', authenticateJWT, cpUpload, as
         subjectId,
         title,
         description,
-        due_date,
+        due_date,         // snake_case column
         assignment_type,
         pkaFile,
         masterZip,
@@ -242,22 +258,31 @@ router.get(
       // 4) build the PDF report
       const pdfName = `report_${submissionId}.pdf`;
       const pdfPath = path.join(UPLOADS_DIR, pdfName);
-      await new Promise((resolve, reject) => {
+      await new Promise(async (resolve, reject) => {
         const doc = new PDFDocument({ margin: 40 });
-        // delete any leftover file so we don’t get EBUSY on Windows
-        if (fs.existsSync(pdfPath)) {
-          try { fs.unlinkSync(pdfPath); }
-          catch (e) { console.warn('Could not delete old PDF:', e); }
-        }
+        // clean up any existing file
+        if (fs.existsSync(pdfPath)) fs.unlinkSync(pdfPath);
         const stream = fs.createWriteStream(pdfPath);
         doc.pipe(stream);
 
-        // header
-        doc
-          .fontSize(18)
-          .text('Automated Grading Report', { align: 'center' })
-          .moveDown(0.5);
+        // ── Report header ──
+        doc.fontSize(18).text('Automated Grading Report', { align: 'center' }).moveDown(0.5);
 
+        // ── Student info ──
+        const [[stud]] = await db.query(
+          `SELECT u.name, u.email
+             FROM users u
+             JOIN submissions s ON s.student_id = u.id
+            WHERE s.id = ?`,
+          [submissionId]
+        );
+        doc
+          .fontSize(10)
+          .text(`Student Name : ${stud.name}`)
+          .text(`Student Email: ${stud.email}`)
+          .moveDown();
+
+        // ── Assignment & score ──
         doc
           .fontSize(12)
           .text(`Subject   : ${assignmentRow.subject_name}`)
@@ -266,23 +291,17 @@ router.get(
           .text(`Score     : ${sub.score}`)
           .moveDown();
 
+        // ── Per‐router feedback ──
         for (const [rtr, info] of Object.entries(per_router)) {
           doc.fontSize(14).text(`Router: ${rtr}`, { underline: true });
-          doc.fontSize(12).text(`Score: ${info.score}`, { indent: 20 });
-          doc.moveDown(0.3);
+          doc.fontSize(12).text(`Score: ${info.score}`, { indent: 20 }).moveDown(0.3);
           info.feedback.forEach(line =>
             doc.text(`• ${line}`, { indent: 40 })
           );
           doc.moveDown();
         }
 
-        doc.addPage();
-        doc
-          .fontSize(16)
-          .text('Topology Check', { underline: true })
-          .moveDown();
-        // (you can append any topology feedback here if stored)
-
+        // ──　(Topology section removed) ──
         doc.end();
         stream.on('finish', resolve);
         stream.on('error', reject);
@@ -575,11 +594,11 @@ router.post(
         Object.entries(summary.per_router).map(([routerName, data]) =>
           db.query(
             `INSERT INTO router_results
-               (submission_id, router_name, score, feedback, diff)
-             VALUES (?, ?, ?, ?, ?)
-             ON DUPLICATE KEY UPDATE
-               score    = VALUES(score),
-               feedback = VALUES(feedback)`,
+             (submission_id, router_name, score, feedback, diff)
+           VALUES (?, ?, ?, ?, ?)
+           ON DUPLICATE KEY UPDATE
+             score    = VALUES(score),
+             feedback = VALUES(feedback)`,
             [
               submissionId,
               routerName,
@@ -591,17 +610,20 @@ router.post(
         )
       );
 
-      // Generate PDF feedback for student immediately
+      // ─── Generate PDF feedback for student immediately ───
+      // (One clean PDFDocument block, exactly as before)
       const [[assignmentRowStudent]] = await db.query(
         `SELECT subj.name  AS subject_name,
-                a.title    AS assignment_title
-           FROM assignments a
-           JOIN subjects   subj ON a.subject_id = subj.id
-          WHERE a.id = ?`,
+              a.title    AS assignment_title
+         FROM assignments a
+         JOIN subjects   subj ON a.subject_id = subj.id
+        WHERE a.id = ?`,
         [assignmentId]
       );
+
       const pdfName = `report_${submissionId}.pdf`;
       const pdfPath = path.join(UPLOADS_DIR, pdfName);
+
       await new Promise((resolve, reject) => {
         const doc = new PDFDocument({ margin: 40 });
         const stream = fs.createWriteStream(pdfPath);
@@ -613,6 +635,7 @@ router.post(
           .text('Automated Grading Report', { align: 'center' })
           .moveDown(0.5);
 
+        // core info
         doc
           .fontSize(12)
           .text(`Subject   : ${assignmentRowStudent.subject_name}`)
@@ -621,6 +644,7 @@ router.post(
           .text(`Score     : ${summary.final_score}`)
           .moveDown();
 
+        // per-router breakdown
         for (const [rtr, info] of Object.entries(summary.per_router)) {
           doc.fontSize(14).text(`Router: ${rtr}`, { underline: true });
           doc.fontSize(12).text(`Score: ${info.score}`, { indent: 20 });
@@ -631,39 +655,31 @@ router.post(
           doc.moveDown();
         }
 
-        doc.addPage();
-        doc
-          .fontSize(16)
-          .text('Topology Check', { underline: true })
-          .moveDown();
-        summary.topology_feedback.forEach(line =>
-          doc.text(`• ${line}`)
-        );
-
         doc.end();
         stream.on('finish', resolve);
         stream.on('error', reject);
       });
 
-      // Save PDF filename back on the submission row
+      //  Save the generated PDF filename on the submission row
       await db.query(
         `UPDATE submissions
-            SET report_file = ?
-          WHERE id = ?`,
+          SET report_file = ?
+        WHERE id = ?`,
         [pdfName, submissionId]
       );
 
-      res.json({
+      //  Finally return the URL for the client to download
+      return res.json({
         success: true,
         summary,
         feedbackPdfUrl: `/uploads/${pdfName}`
       });
+
     } catch (err) {
       console.error(err);
       next(err);
     }
-  }
-);
+  });
 
 // ─── CURRENT USER PROFILE ──────────────────────────────────────────
 router.get('/me', authenticateJWT, async (req, res) => {

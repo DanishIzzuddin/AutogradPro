@@ -56,29 +56,31 @@ def init_routes(app):
             birthday_prefix   = bp,
             master_prefix     = None
         )
+    if not summary.get("success", True):
+        return summary["error"], 400, {"Content-Type": "text/plain"}
 
-        # 7) Persist Submission
-        sub = Submission(
-            student_name    = name,
-            birthday_prefix = bp,
-            master_zip      = mfn,
-            student_zip     = sfn,
-            final_score     = summary["final_score"]
+    # 7) Persist Submission
+    sub = Submission(
+        student_name    = name,
+        birthday_prefix = bp,
+        master_zip      = mfn,
+        student_zip     = sfn,
+        final_score     = summary["final_score"]
+    )
+    db.session.add(sub)
+    db.session.commit()
+
+    # 8) Persist per-router
+    for router, data in summary["per_router"].items():
+        rr = RouterResult(
+            submission_id = sub.id,
+            router_name   = router,
+            score         = int(data["score"]),
+            feedback      = "\n".join(data["feedback"]),
+            diff          = ""
         )
-        db.session.add(sub)
-        db.session.commit()
+        db.session.add(rr)
+    db.session.commit()
 
-        # 8) Persist per-router
-        for router, data in summary["per_router"].items():
-            rr = RouterResult(
-                submission_id = sub.id,
-                router_name   = router,
-                score         = int(data["score"]),
-                feedback      = "\n".join(data["feedback"]),
-                diff          = ""
-            )
-            db.session.add(rr)
-        db.session.commit()
-
-        # 9) Return plain-text report
-        return format_summary(summary), 200, {"Content-Type": "text/plain"}
+    # 9) Return plain-text report
+    return format_summary(summary), 200, {"Content-Type": "text/plain"}

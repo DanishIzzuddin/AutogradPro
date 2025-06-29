@@ -534,3 +534,19 @@
   color: #b00;
   margin-top: 0.5rem;
 }
+
+.assignment-list-item { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; }
+.assignment-info { display: flex; flex-direction: column; }
+.assignment-title { font-weight: 500; }
+.assignment-due { font-size: 0.875rem; color: #555; }
+.assignment-submit { 
+  padding: 0.4rem 1rem; 
+  background: #007bff; 
+  color: white; 
+  border-radius: 4px; 
+  text-decoration: none;
+}
+.assignment-submit.disabled { 
+  background: #ccc; 
+  cursor: not-allowed; 
+}

@@ -7,8 +7,8 @@ import LecturerDashboard      from './pages/LecturerDashboard';
 import ViewSubmissions        from './pages/ViewSubmissions';
 import NewAssignment          from './pages/NewAssignment';
 import AssignmentPerformance  from './pages/AssignmentPerformance';
-import StudentPerformance     from './pages/StudentPerformance';  // lecturer’s performance overview
-import StudentProgress        from './pages/StudentProgress';     // student’s own progress page
+import StudentPerformance     from './pages/StudentPerformance'; 
+import StudentProgress        from './pages/StudentProgress';     
 import GradeAssignments       from './pages/GradeAssignments';
 import Account                from './pages/Account';
 import StudentDashboard       from './pages/StudentDashboard';
